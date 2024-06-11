@@ -28,11 +28,6 @@ def generate_dummy_transactions(num_transactions):
     return transactions
 
 
-# Generate dummy transactions
-num_transactions = 100
-transactions = generate_dummy_transactions(num_transactions)
 
-# Convert transactions to Spark DataFrame
-df_transactions = spark.createDataFrame(transactions)
 
 

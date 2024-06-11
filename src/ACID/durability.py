@@ -65,6 +65,7 @@ def simulate_system_crash(delta_table, spark: SparkSession):
 
 
 # Simulate system crash and check durability
+delta_table = delta_table(spark)
 simulate_system_crash(delta_table, spark)
 
 """

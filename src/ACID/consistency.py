@@ -1,5 +1,7 @@
 
 from delta import DeltaTable
+
+from src.utils.define_spark import spark
 from src.utils.implement_delta_lake import delta_table
 
 
@@ -25,7 +27,7 @@ def check_consistency(delta_table: DeltaTable):
 
 
 # Perform consistency check
-check_consistency(delta_table)
+check_consistency(delta_table(spark))
 
 
 """

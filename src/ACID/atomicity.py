@@ -3,20 +3,20 @@ from src.utils.define_spark import spark
 from src.utils.implement_delta_lake import delta_table
 
 
-def perform_atomic_transaction(delta_table, transactions):
+def perform_atomic_transaction(oldDF, transactions):
     """
     Perform a series of operations as a single atomic transaction.
 
     Args:
-        delta_table (DeltaTable): The DeltaTable to perform operations on.
-        transactions (list): A list of transactions to be performed.
+        :param transactions: The DeltaTable to perform operations on.
+        :param oldDF: A list of transactions to be performed.
     """
     try:
         # Perform operations within a single transaction
         for transaction in transactions:
-            df = spark.createDataFrame([transaction])
-            delta_table.alias("t").merge(
-                df.alias("s"),
+            newDF = spark.createDataFrame([transaction])
+            oldDF.alias("t").merge(
+                newDF.alias("s"),
                 "t.transaction_id = s.transaction_id"
             ).whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
         print("Transaction successful.")
@@ -26,7 +26,8 @@ def perform_atomic_transaction(delta_table, transactions):
 
 # Generate new set of transactions to simulate atomic transaction
 new_transactions = generate_dummy_transactions(5)
-perform_atomic_transaction(delta_table, new_transactions)
+df = delta_table(spark)
+perform_atomic_transaction(df, new_transactions)
 
 
 """

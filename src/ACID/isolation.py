@@ -39,6 +39,7 @@ def perform_isolated_transactions(delta_table, transactions):
 
 # Generate new set of transactions to simulate isolated transactions
 new_transactions = generate_dummy_transactions(5)
+delta_table=delta_table(spark)
 perform_isolated_transactions(delta_table, new_transactions)
 
 
